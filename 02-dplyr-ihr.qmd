@@ -1,0 +1,55 @@
+---
+title: "Daten transformation with dplyr"
+format:
+  html:
+    embed-resources: true
+    toc: true
+execute:
+  warning: false
+editor_options: 
+  chunk_output_type: console
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+
+
+
+## daten visualisierung
+
+1.  Benutze die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` für die Daten zu erstellen, die du in Aufgabe 1.2 erstellt hast.
+
+2.  Verwende die Funktion `aes()`, um die Variable "jahr" auf die x-Achse, die Variable "emission" auf die y-Achse und die Variable "untergruppe" auf die Farbe und die ästhetische Gruppe zu übertragen.
+
+3.  Ändere die Farben mit `scale_color_colorblind()`.
+
+```{r}
+treibhausgase <- read_csv(here::here("daten/ktzh-treibhausgase.csv")) 
+
+treibhausgase |> 
+    group_by(jahr, hauptgruppe, thg) |> 
+    summarise(
+        summe_emission = sum(emission)
+    ) |> 
+    ggplot(aes(x = jahr, y = summe_emission, color = thg)) +
+    geom_point() +
+    facet_wrap(~hauptgruppe)
+
+treibhausgase |> 
+    filter(hauptgruppe == "Gebäude") |> 
+    ggplot(aes(x = jahr, y = emission, color = untergruppe)) +
+    geom_point() +
+    geom_path()
+
+treibhausgase |> 
+    filter(hauptgruppe == "Verkehr") |> 
+    ggplot(aes(x = jahr, y = emission, color = untergruppe)) +
+    geom_point() +
+    geom_path()
+
+
+```
