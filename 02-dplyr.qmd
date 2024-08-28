@@ -1,0 +1,151 @@
+---
+title: "Daten transformation with dplyr"
+format:
+  html:
+    embed-resources: true
+    toc: true
+execute:
+  warning: false
+editor_options: 
+  chunk_output_type: console
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(readxl)
+```
+
+# Treibhausgasemissionen im Kanton Zürich
+
+Emissionen der wichtigsten Klimagase (CO2, CH4, N2O und synthetische Gase) im Kanton Zürich. Die aufgeführten Treibhausgasemissionen sind als CO2-Äquivalente in Tonnen pro Jahr ausgewiesen und werden nach dem Territorialprinzip bilanziert. Das bedeutet, dass alle innerhalb des Kantons Zürich anfallenden Emissionen für die Bilanz berücksichtigt werden. Die Emissionsbilanzierung liegt als Zeitreihe ab 1990 vor. 
+
+Sie enthält die folgenden Variablen:
+
+- `jahr` = Zeitpunkt der Emissionsdaten
+- `hauptgruppe` = Zusammenfassung der wichtigsten Emittentengruppen
+- `untergruppe` = detailliertere Quellenangabe (z.B. Abfalldeponie, Landwirtschaftliche Böden, ...)  
+- `nfr` = Nomeclature for Reporting, Internationale Systematik zur Klassierung von Emissionen. Wird benutzt von IPCC, UNFCCC, CLRTAP, EMEP, EMIS 
+- `emission` = Emissionswert (CO2-Äquivalente und Tonnen pro Jahr)
+- `quelle`: verwendete Datengrundlage [string]; weiterführende Informationen sind weiter unten aufgeführt -> Inhalte des Attributes `quelle` 
+- `thg` = relevantes Klimagas 
+- `thg_agg` = Vereinheitlichung/Umrechung aller Klimagase in CO2-Äquivalente (CO2eq) 
+- `einheit` = Masseinheit der CO2eq-Emissionen, abgekürzt: `t/a` 
+- `einheit_lang` = Masseinheit der Emissionen, ausgeschrieben: "Tonnen pro Jahr"
+
+```{r}
+treibhausgase_in <- read_csv("daten/KTZH_00002683_00005504.csv") |>
+    select(-nfr, -quelle, -einheit, -einheit_lang) 
+```
+
+```{r}
+
+glimpse(treibhausgase_in)
+
+```
+
+## filter()
+
+```{r}
+treibhausgase_in |> 
+    filter(hauptgruppe == "Verkehr")
+
+treibhausgase_in |> 
+    filter(hauptgruppe != "Verkehr")
+
+treibhausgase_in |> 
+    filter(hauptgruppe == "Verkehr", jahr == 2022)
+
+treibhausgase_in |> 
+    filter(thg == "CH4" | thg == "CO2" | thg == "N20")
+
+treibhausgase_in |> 
+    filter(thg %in% c("CH4", "CO2", "N20"))
+
+
+treibhausgase_in |> 
+    filter(jahr > 2010)
+
+treibhausgase_in |> 
+    filter(jahr <= 2010)
+
+```
+
+Speichern eines resultierenden Dataframes als neues Objekt:
+
+```{r}
+treibhausgase_verkehr <- treibhausgase_in |> 
+    filter(hauptgruppe == "Verkehr", jahr == 2022) 
+```
+
+- Die Tastenkombination für den senkrechten Strich | (OR) in CH ist: Shift + / (Windows) und Option + / (Mac)
+- Tastaturkürzel für den Pipe-Operator: Strg / Cmd + Shift + M
+- Tastaturkürzel für den Zuweisungsoperator: Alt + - 
+
+## arrange
+
+```{r}
+
+treibhausgase_verkehr |> 
+    arrange(emission)
+
+treibhausgase_verkehr |> 
+    arrange(desc(emission))
+
+```
+
+## select
+
+```{r}
+treibhausgase_verkehr |> 
+    select(jahr, untergruppe, emission)
+
+treibhausgase_verkehr |> 
+    select(-hauptgruppe)
+
+treibhausgase_verkehr |> 
+    select(jahr:untergruppe, emission)
+```
+
+## rename
+
+```{r}
+treibhausgase_verkehr |> 
+    rename(emission_co2eq_ton = emission) |> 
+    select(jahr, untergruppe, emission_co2eq_ton)
+```
+
+## mutate
+
+```{r}
+treibhausgase_verkehr |> 
+    mutate(emission_co2eq_kg = emission * 1000) 
+```
+
+
+
+```{r}
+treibhausgase_in |> 
+    group_by(jahr, hauptgruppe, thg) |> 
+    summarise(
+        summe_emission = sum(emission)
+    ) |> 
+    ggplot(aes(x = jahr, y = summe_emission, color = thg)) +
+    geom_point() +
+    facet_wrap(~hauptgruppe)
+
+treibhausgase_in |> 
+    filter(hauptgruppe == "Gebäude") |> 
+    ggplot(aes(x = jahr, y = emission, color = untergruppe)) +
+    geom_point() +
+    geom_path()
+
+treibhausgase_in |> 
+    filter(hauptgruppe == "Verkehr") |> 
+    ggplot(aes(x = jahr, y = emission, color = untergruppe)) +
+    geom_point() +
+    geom_path()
+
+
+```
+
