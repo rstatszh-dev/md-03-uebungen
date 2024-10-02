@@ -11,30 +11,35 @@ editor_options:
 editor: visual
 ---
 
+## R-Pakete laden
+
 ```{r}
-library(tidyverse)
+library(readr)
+library(dplyr)
 ```
 
-# Treibhausgasemissionen im Kanton Zürich
+## Daten importien
+
+### Treibhausgasemissionen im Kanton Zürich
 
 Emissionen der wichtigsten Klimagase (CO2, CH4, N2O und synthetische Gase) im Kanton Zürich. Die aufgeführten Treibhausgasemissionen sind als CO2-Äquivalente in Tonnen pro Jahr ausgewiesen und werden nach dem Territorialprinzip bilanziert. Das bedeutet, dass alle innerhalb des Kantons Zürich anfallenden Emissionen für die Bilanz berücksichtigt werden. Die Emissionsbilanzierung liegt als Zeitreihe ab 1990 vor.
 
-Sie enthält die folgenden Variablen:
+Der Datensatz enthält die folgenden Variablen:
 
 -   `jahr` = Zeitpunkt der Emissionsdaten
 -   `hauptgruppe` = Zusammenfassung der wichtigsten Emittentengruppen
--   `untergruppe` = detailliertere Quellenangabe (z.B. Abfalldeponie, Landwirtschaftliche Böden, ...)\
--   `nfr` = Nomeclature for Reporting, Internationale Systematik zur Klassierung von Emissionen. Wird benutzt von IPCC, UNFCCC, CLRTAP, EMEP, EMIS
--   `emission` = Emissionswert (CO2-Äquivalente und Tonnen pro Jahr)
--   `quelle`: verwendete Datengrundlage \[string\]; weiterführende Informationen sind weiter unten aufgeführt -\> Inhalte des Attributes `quelle`
+-   `untergruppe` = detailliertere Quellenangabe (z.B. Abfalldeponie, Landwirtschaftliche Böden, ...)
 -   `thg` = relevantes Klimagas
 -   `thg_agg` = Vereinheitlichung/Umrechung aller Klimagase in CO2-Äquivalente (CO2eq)
--   `einheit` = Masseinheit der CO2eq-Emissionen, abgekürzt: `t/a`
--   `einheit_lang` = Masseinheit der Emissionen, ausgeschrieben: "Tonnen pro Jahr"
+-   `emission` = Emissionswert (CO2-Äquivalente und Tonnen pro Jahr)
+
+Der Datensatz wird vom Amt für Abfall, Wasser, Energie und Luft (AWEL) des Kantons Zürich als Open Government Data (OGD) Datensatz publiziert: [https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683\@awel-kanton-zuerich](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683@awel-kanton-zuerich)
 
 ```{r}
-treibhausgase <- read_csv(here::here("daten/ktzh-treibhausgase.csv")) 
+treibhausgase <- read_csv("daten/ktzh-treibhausgase.csv")
 ```
+
+## Daten erkunden
 
 ```{r}
 
@@ -44,18 +49,20 @@ treibhausgase |>
     distinct(hauptgruppe)
 
 treibhausgase |> 
-    count(thg_agg)
+    distinct(untergruppe)
 
 treibhausgase |> 
-    count(hauptgruppe, untergruppe)
+    distinct(hauptgruppe, untergruppe)
 
 treibhausgase |> 
-    count(jahr)
- 
+    distinct(jahr) |> 
+    tail()
 
 ```
 
-## filter()
+## Daten transformieren
+
+### Funktion: `filter()`
 
 ```{r}
 treibhausgase |> 
@@ -79,9 +86,6 @@ treibhausgase |>
 
 treibhausgase |> 
     filter(jahr <= 2010)
-
-
-
 ```
 
 Speichern eines resultierenden Dataframes als neues Objekt:
@@ -91,7 +95,7 @@ treibhausgase_verkehr <- treibhausgase |>
     filter(hauptgruppe == "Verkehr", jahr == 2022) 
 ```
 
-## arrange
+### Funktion: `arrange()`
 
 ```{r}
 
@@ -103,7 +107,7 @@ treibhausgase_verkehr |>
 
 ```
 
-## select
+### Funktion: `select()`
 
 ```{r}
 treibhausgase_verkehr |> 
@@ -116,7 +120,7 @@ treibhausgase_verkehr |>
     select(jahr:untergruppe, emission)
 ```
 
-## rename
+### Funktion: `rename()`
 
 ```{r}
 treibhausgase_verkehr |> 
@@ -124,11 +128,13 @@ treibhausgase_verkehr |>
     select(jahr, untergruppe, emission_co2eq_ton)
 ```
 
-## mutate
+### Funktion: `mutate()`
 
 ```{r}
 treibhausgase_verkehr |> 
     mutate(emission_co2eq_kg = emission * 1000) 
 ```
 
+## Daten kommunizieren
 
+-   Das Dokument in das HTML-Format umwandeln (Render) und eventuelle Fehler beheben
