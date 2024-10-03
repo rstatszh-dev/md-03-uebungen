@@ -1,0 +1,139 @@
+---
+title: "Daten transformation with dplyr"
+format:
+  html:
+    embed-resources: true
+    toc: true
+execute:
+  warning: false
+editor_options: 
+  chunk_output_type: console
+editor: visual
+---
+
+## R-Pakete laden
+
+```{r}
+library(readr)
+library(dplyr)
+```
+
+## Daten importien
+
+### Treibhausgasemissionen im Kanton Zürich
+
+Emissionen der wichtigsten Klimagase (CO2, CH4, N2O und synthetische Gase) im Kanton Zürich. Die aufgeführten Treibhausgasemissionen sind als CO2-Äquivalente in Tonnen pro Jahr ausgewiesen und werden nach dem Territorialprinzip bilanziert. Das bedeutet, dass alle innerhalb des Kantons Zürich anfallenden Emissionen für die Bilanz berücksichtigt werden. Die Emissionsbilanzierung liegt als Zeitreihe ab 1990 vor.
+
+Der Datensatz enthält die folgenden Variablen:
+
+-   `jahr` = Zeitpunkt der Emissionsdaten
+-   `hauptgruppe` = Zusammenfassung der wichtigsten Emittentengruppen
+-   `untergruppe` = detailliertere Quellenangabe (z.B. Abfalldeponie, Landwirtschaftliche Böden, ...)
+-   `thg` = relevantes Klimagas
+-   `thg_agg` = Vereinheitlichung/Umrechung aller Klimagase in CO2-Äquivalente (CO2eq)
+-   `emission` = Emissionswert (CO2-Äquivalente und Tonnen pro Jahr)
+
+Der Datensatz wird vom Amt für Abfall, Wasser, Energie und Luft (AWEL) des Kantons Zürich als Open Government Data (OGD) Datensatz publiziert: [https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683\@awel-kanton-zuerich](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683@awel-kanton-zuerich)
+
+```{r}
+treibhausgase <- read_csv("daten/ktzh-treibhausgase.csv")
+```
+
+## Daten erkunden
+
+```{r}
+glimpse(treibhausgase)
+
+treibhausgase |> 
+    distinct(hauptgruppe)
+
+treibhausgase |> 
+    distinct(untergruppe)
+
+treibhausgase |> 
+    distinct(hauptgruppe, untergruppe)
+
+treibhausgase |> 
+    distinct(jahr) |> 
+    tail()
+
+```
+
+## Daten transformieren
+
+### Funktion: `filter()`
+
+```{r}
+treibhausgase |> 
+    filter(hauptgruppe == "Verkehr")
+
+treibhausgase |> 
+    filter(hauptgruppe != "Verkehr")
+
+treibhausgase |> 
+    filter(hauptgruppe == "Verkehr", jahr == 2022)
+
+treibhausgase |> 
+    filter(thg == "CH4" | thg == "CO2" | thg == "N20")
+
+treibhausgase |> 
+    filter(thg %in% c("CH4", "CO2", "N20"))
+
+
+treibhausgase |> 
+    filter(jahr > 2010)
+
+treibhausgase |> 
+    filter(jahr <= 2010)
+```
+
+Speichern eines resultierenden Dataframes als neues Objekt:
+
+```{r}
+treibhausgase_verkehr <- treibhausgase |> 
+    filter(hauptgruppe == "Verkehr", jahr == 2022) 
+```
+
+### Funktion: `arrange()`
+
+```{r}
+
+treibhausgase_verkehr |> 
+    arrange(emission)
+
+treibhausgase_verkehr |> 
+    arrange(desc(emission))
+
+```
+
+### Funktion: `select()`
+
+```{r}
+treibhausgase_verkehr |> 
+    select(jahr, untergruppe, emission)
+
+treibhausgase_verkehr |> 
+    select(-hauptgruppe)
+
+treibhausgase_verkehr |> 
+    select(jahr:untergruppe, emission)
+```
+
+### Funktion: `rename()`
+
+```{r}
+treibhausgase_verkehr |> 
+    rename(emission_co2eq_ton = emission) |> 
+    select(jahr, untergruppe, emission_co2eq_ton)
+```
+
+### Funktion: `mutate()`
+
+```{r}
+treibhausgase_verkehr |> 
+    mutate(emission_co2eq_kg = emission * 1000) 
+```
+
+## Daten kommunizieren
+
+-   Das Dokument in das HTML-Format umwandeln (Render) und eventuelle Fehler beheben
