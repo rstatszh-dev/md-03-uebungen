@@ -13,7 +13,7 @@ editor: visual
 
 ## R-Pakete laden
 
-1.  Lade die drei R Pakete: `readr`, `dplyr` und `ggplot2`.
+1.  Lade die vier R Pakete: `readr`, `dplyr`, `ggplot2`, und `ggthemes`.
 
 ```{r}
 library(readr)
