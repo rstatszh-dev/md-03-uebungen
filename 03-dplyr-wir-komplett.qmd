@@ -36,7 +36,7 @@ Ich habe hier nochmals die wichtigsten Tastaturkürzel für dich hinzugefügt
 
 ### Funktion: `summarise()`
 
-Mit der Funktion `summarise()` wird ein neuer Dataframe erstellt. Der Dataframe enthält eine Spalte für jede angegebene zusammenfassende Statistik. 
+Mit der Funktion `summarise()` wird ein neuer Dataframe erstellt. Der Dataframe enthält eine Spalte für jede angegebene zusammenfassende Statistik.
 
 ```{r}
 
@@ -52,10 +52,6 @@ penguins |>
     max_year = max(year) # neue Spalte wird benannt
   )
 
-```
-
-```{r}
-
 penguins |> 
   filter(species == "Chinstrap", island == "Dream") |>  # gefilterter Dataframe wird an summarise weitergegeben
   summarise(anzahl = n())
@@ -64,7 +60,7 @@ penguins |>
 
 ### Funktion: `group_by()`
 
-Die Funktion `group_by()` wird genutzt um einen existierenden Dataframe in einen gruppierten Dataframe zu konvertieren, sodass die folgenden Anweisungen auf der Ebene der Gruppen angewandt werden. Der resultierende Dataframe enthält eine (oder mehrere) Zeilen für jede Kombination von Gruppierungsvariablen, und eine Spalte für jede zusammenfassende Statistik. 
+Die Funktion `group_by()` wird genutzt um einen existierenden Dataframe in einen gruppierten Dataframe zu konvertieren, sodass die folgenden Anweisungen auf der Ebene der Gruppen angewandt werden. Der resultierende Dataframe enthält eine (oder mehrere) Zeilen für jede Kombination von Gruppierungsvariablen, und eine Spalte für jede zusammenfassende Statistik.
 
 ```{r}
 
