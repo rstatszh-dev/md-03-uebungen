@@ -14,8 +14,7 @@ editor: visual
 ## R-Pakete laden
 
 ```{r}
-library(readr)
-library(dplyr)
+
 ```
 
 ## Daten importien
@@ -36,103 +35,22 @@ Der Datensatz enthält die folgenden Variablen:
 Der Datensatz wird vom Amt für Abfall, Wasser, Energie und Luft (AWEL) des Kantons Zürich als Open Government Data (OGD) Datensatz publiziert: [https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683\@awel-kanton-zuerich](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683@awel-kanton-zuerich)
 
 ```{r}
-treibhausgase <- read_csv("daten/ktzh-treibhausgase.csv")
+
 ```
 
 ## Daten erkunden
-
-```{r}
-glimpse(treibhausgase)
-
-treibhausgase |> 
-    distinct(hauptgruppe)
-
-treibhausgase |> 
-    distinct(untergruppe)
-
-treibhausgase |> 
-    distinct(hauptgruppe, untergruppe)
-
-treibhausgase |> 
-    distinct(jahr) |> 
-    tail()
-
-```
 
 ## Daten transformieren
 
 ### Funktion: `filter()`
 
-```{r}
-treibhausgase |> 
-    filter(hauptgruppe == "Verkehr")
-
-treibhausgase |> 
-    filter(hauptgruppe != "Verkehr")
-
-treibhausgase |> 
-    filter(hauptgruppe == "Verkehr", jahr == 2022)
-
-treibhausgase |> 
-    filter(thg == "CH4" | thg == "CO2" | thg == "N20")
-
-treibhausgase |> 
-    filter(thg %in% c("CH4", "CO2", "N20"))
-
-
-treibhausgase |> 
-    filter(jahr > 2010)
-
-treibhausgase |> 
-    filter(jahr <= 2010)
-```
-
-Speichern eines resultierenden Dataframes als neues Objekt:
-
-```{r}
-treibhausgase_verkehr <- treibhausgase |> 
-    filter(hauptgruppe == "Verkehr", jahr == 2022) 
-```
-
 ### Funktion: `arrange()`
-
-```{r}
-
-treibhausgase_verkehr |> 
-    arrange(emission)
-
-treibhausgase_verkehr |> 
-    arrange(desc(emission))
-
-```
 
 ### Funktion: `select()`
 
-```{r}
-treibhausgase_verkehr |> 
-    select(jahr, untergruppe, emission)
-
-treibhausgase_verkehr |> 
-    select(-hauptgruppe)
-
-treibhausgase_verkehr |> 
-    select(jahr:untergruppe, emission)
-```
-
 ### Funktion: `rename()`
 
-```{r}
-treibhausgase_verkehr |> 
-    rename(emission_co2eq_ton = emission) |> 
-    select(jahr, untergruppe, emission_co2eq_ton)
-```
-
 ### Funktion: `mutate()`
-
-```{r}
-treibhausgase_verkehr |> 
-    mutate(emission_co2eq_kg = emission * 1000) 
-```
 
 ## Daten kommunizieren
 
