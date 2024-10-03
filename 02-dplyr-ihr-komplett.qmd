@@ -13,7 +13,7 @@ editor: visual
 
 ## R-Pakete laden
 
-1. Lade die drei R Pakete: `readr`, `dplyr` und `ggplot2`.
+1.  Lade die drei R Pakete: `readr`, `dplyr` und `ggplot2`.
 
 ```{r}
 library(readr)
@@ -45,13 +45,13 @@ Für alle Aufgaben in diesen Übungen, arbeite mit dem Daten Objekt `treibhausga
 
 ### Filter nach Hauptgruppe Gebäude
 
-1. Nutze die R Funktion `filter()` um die Daten nach der Hauptgruppen "Gebäude" zu filtern.
+1.  Nutze die R Funktion `filter()` um die Daten nach der Hauptgruppen "Gebäude" zu filtern.
 
-2. Führe den Code aus und betrachte die Resultate in der Console.
+2.  Führe den Code aus und betrachte die Resultate in der Console.
 
-3. Nutze den Zuweisungsoperator `<-` um das Ergebnis in einem neuen Daten Objekt mit dem Namen `treibhausgase_gebaeude` zu speichern.
+3.  Nutze den Zuweisungsoperator `<-` um das Ergebnis in einem neuen Daten Objekt mit dem Namen `treibhausgase_gebaeude` zu speichern.
 
-4. Führe den Code aus und betrachte die Resultate indem du auf den Namen des Daten Objekts klickst im Fenster oben links unter dem Reiter Environment klickst.
+4.  Führe den Code aus und betrachte die Resultate indem du auf den Namen des Daten Objekts klickst im Fenster oben links unter dem Reiter Environment klickst.
 
 ```{r}
 treibhausgase_gebaeude <- treibhausgase |> 
@@ -60,13 +60,13 @@ treibhausgase_gebaeude <- treibhausgase |>
 
 ### Filter nach Hauptgruppe Verkehr
 
-1. Nutze die R Funktion `filter()` um die Daten nach der Hauptgruppen "Verkehr" zu filtern.
+1.  Nutze die R Funktion `filter()` um die Daten nach der Hauptgruppen "Verkehr" zu filtern.
 
-2. Führe den Code aus und betrachte die Resultate in der Console.
+2.  Führe den Code aus und betrachte die Resultate in der Console.
 
-3. Nutze den Zuweisungsoperator `<-` um das Ergebnis in einem neuen Daten Objekt mit dem Namen `treibhausgase_verkehr` zu speichern.
+3.  Nutze den Zuweisungsoperator `<-` um das Ergebnis in einem neuen Daten Objekt mit dem Namen `treibhausgase_verkehr` zu speichern.
 
-4. Führe den Code aus und betrachte die Resultate indem du auf den Namen des Daten Objekts klickst im Fenster oben links unter dem Reiter Environment klickst.
+4.  Führe den Code aus und betrachte die Resultate indem du auf den Namen des Daten Objekts klickst im Fenster oben links unter dem Reiter Environment klickst.
 
 ```{r}
 treibhausgase_verkehr <- treibhausgase |> 
@@ -77,8 +77,7 @@ treibhausgase_verkehr <- treibhausgase |>
 
 ### Verbundenes Streudiagramm für Gebäude Emissionen
 
-1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_gebaeude` und die 
-Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen. 
+1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_gebaeude` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
 
 Definiere folgende visuellen Eigenschaften:
 
@@ -90,7 +89,7 @@ Definiere folgende visuellen Eigenschaften:
 
 4.  Ändere die Farben mit `scale_color_colorblind()`.
 
-5. Nutze ein KI Tool um einen Titel und Untertitel zu dem Diagramm hinzzuzufügen und teile einen Link zu deinem Prompt hier: https://www.perplexity.ai/search/fuge-dem-folgenden-diagramm-ei-IfVKG9CXTwSNIAfqK65YOQ
+5.  Nutze ein KI Tool um einen Titel und Untertitel zu dem Diagramm hinzzuzufügen und teile einen Link zu deinem Prompt hier: https://www.perplexity.ai/search/fuge-dem-folgenden-diagramm-ei-IfVKG9CXTwSNIAfqK65YOQ
 
 ```{r}
 
@@ -107,8 +106,7 @@ ggplot(data = treibhausgase_gebaeude,
 
 ### Verbundenes Streudiagramm für Verkehr Emissionen
 
-1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_gebaeude` und die 
-Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen. 
+1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_gebaeude` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
 
 Definiere folgende visuellen Eigenschaften:
 
@@ -130,4 +128,3 @@ ggplot(data = treibhausgase_verkehr,
     geom_path() +
     scale_color_colorblind()
 ```
-
