@@ -42,7 +42,6 @@ treibhausgase <- read_csv("daten/ktzh-treibhausgase.csv")
 ## Daten erkunden
 
 ```{r}
-
 glimpse(treibhausgase)
 
 treibhausgase |> 

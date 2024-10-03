@@ -11,107 +11,98 @@ editor_options:
 editor: visual
 ---
 
-Link: https://allisonhorst.github.io/palmerpenguins/
+# R-Pakete laden & Daten importieren
 
 ```{r}
-library(tidyverse)
-library(readxl)
+library(dplyr)
 library(palmerpenguins)
 ```
 
-# Palmer Pinguine
+## Palmer Pinguine
 
-The palmerpenguins data contains size measurements for three penguin species observed on three islands in the Palmer Archipelago, Antarctica.
+Die Daten zu den Palmer-Pinguinen enthalten Größenmessungen für drei Pinguinarten, die auf drei Inseln des Palmer-Archipels in der Antarktis beobachtet wurden.
 
 # Tastaturkürzel
 
 Ich habe hier nochmals die wichtigsten Tastaturkürzel für dich hinzugefügt
 
-- **Einen neuen Code-chunk hinzufügen:** Ctrl + Alt + I
-- **Code "Zeile für Zeile" innerhalb eines Code-chunks ausführen:** Ctrl + Enter
-- **Den gesamten Code-chunk ausführen:** Ctrl + Shift + Enter
-- **Die Pipe (%>%):** Ctrl + Shift + M
-- **Der Zuweisungs-Operator (<-)**: Alt + -
+-   **Einen neuen Code-chunk hinzufügen:** Ctrl + Alt + I
+-   **Code "Zeile für Zeile" innerhalb eines Code-chunks ausführen:** Ctrl + Enter
+-   **Den gesamten Code-chunk ausführen:** Ctrl + Shift + Enter
+-   **Die Pipe (`|>`):** Ctrl + Shift + M
+-   **Der Zuweisungs-Operator (\<-)**: Alt + -
 
-# dplyr::summarise()
+# Daten transformieren - Zusammenfassen
 
-Mit der Funktion `summarise()` wird ein neuer Dataframe erstellt. Der Dataframe enthält eine Spalte für jede angegebene zusammenfassende Statistik.
+## Funktion: `summarise()`
 
-Dieser enthält eine (oder mehrere) Zeilen für jede Kombination von Gruppierungsvariablen.
+Mit der Funktion `summarise()` wird ein neuer Dataframe erstellt. Der Dataframe enthält eine Spalte für jede angegebene zusammenfassende Statistik. 
 
-```{r dplyr-summarise}
+```{r}
 
-penguins %>% 
+penguins |> 
   summarise()
 
-penguins %>% 
+penguins |> 
   summarise(n())  # neue Spalte bekommen namen der Funktion
 
-penguins %>% 
+penguins |> 
   summarise(
     count = n(),  # neue Spalte wird benannt
-    max = max(year) # neue Spalte wird benannt
+    max_year = max(year) # neue Spalte wird benannt
   )
-
-nrow(penguins)
-dim(penguins)  # reihen + spalten
-str(penguins)
-glimpse(penguins)
 
 ```
 
+```{r}
 
-```{r dplyr-summarise-filter}
-
-penguins %>% 
-  filter(species == "Chinstrap", island == "Dream") %>%  # gefilterter Dataframe wird an summarise weitergegeben
+penguins |> 
+  filter(species == "Chinstrap", island == "Dream") |>  # gefilterter Dataframe wird an summarise weitergegeben
   summarise(anzahl = n())
 
 ```
 
-# dplyr::group_by()
+## Funktion: `group_by()`
 
-Die Funktion `group_by()` wird genutzt um einen existierenden Dataframe in einen gruppierten Dataframe zu konvertieren, sodass die folgenden Anweisungen auf der Ebene der Gruppen angewandt werden. Der resultierende Dataframe enthält eine (oder mehrere) Zeilend für jede Kombination von Gruppierungsvariablen, und eine Spalte für jede Gruppierungsvariable.
+Die Funktion `group_by()` wird genutzt um einen existierenden Dataframe in einen gruppierten Dataframe zu konvertieren, sodass die folgenden Anweisungen auf der Ebene der Gruppen angewandt werden. Der resultierende Dataframe enthält eine (oder mehrere) Zeilen für jede Kombination von Gruppierungsvariablen, und eine Spalte für jede zusammenfassende Statistik. 
 
-## Gruppierte Zusammenfassung
+```{r}
 
-```{r dplyr-summarise-group} 
-
-penguins %>% 
+penguins |> 
   group_by(species, island)  # beachte Output. Groups: species, island [5]
 
-penguins %>% 
-  group_by(island, species) %>% 
+penguins |> 
+  group_by(island, species) |> 
   summarise(count = n()) # Pro Gruppe eine Reihe. Pro Variable eine Spalte im Output.
 
-penguins %>% 
-  filter(body_mass_g > 3700) %>% # Erst filtern, dann zusammenfassen
-  group_by(island, species) %>% 
+penguins |> 
+  filter(body_mass_g > 3700) |> # Erst filtern, dann zusammenfassen
+  group_by(island, species) |> 
   summarise(count = n())
 
 ```
 
-## Mit NAs umgehen
+## Mit fehlende Werten (NA) umgehen
 
-```{r dplyr-summarise-group-na}
+```{r}
 
-penguins %>% 
-  group_by(island) %>% 
+penguins |> 
+  group_by(island) |> 
   summarise(
     count = n(),
     mean = mean(bill_depth_mm)  # Datensatz hat NA Werte für bill_depth_mm
   )
 
-penguins %>% 
-  group_by(island) %>% 
+penguins |> 
+  group_by(island) |> 
   summarise(
     count = n(),
     mean = mean(bill_depth_mm, na.rm = TRUE) # NA werden ignoriert (aber nicht entfernt)
   )
 
-penguins %>% 
-  filter(!is.na(bill_depth_mm)) %>%  # NAs werden entfernt
-  group_by(island) %>% 
+penguins |> 
+  filter(!is.na(bill_depth_mm)) |>  # NAs werden entfernt
+  group_by(island) |> 
   summarise(
     count = n(),
     mean = mean(bill_depth_mm) # NAs müssen hier nicht mehr ignoriert werden
