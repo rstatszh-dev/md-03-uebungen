@@ -18,7 +18,7 @@ library(readr)
 library(dplyr)
 ```
 
-## Daten importien
+## Daten importieren
 
 ### Treibhausgasemissionen im Kanton Zürich
 
@@ -85,6 +85,8 @@ treibhausgase |>
 
 treibhausgase |> 
     filter(jahr <= 2010)
+
+
 ```
 
 Speichern eines resultierenden Dataframes als neues Objekt:
@@ -92,6 +94,10 @@ Speichern eines resultierenden Dataframes als neues Objekt:
 ```{r}
 treibhausgase_verkehr <- treibhausgase |> 
     filter(hauptgruppe == "Verkehr", jahr == 2022) 
+
+print((nrow(treibhausgase_verkehr))) 
+
+paste("Anzahl Reihen:", nrow(treibhausgase_verkehr))
 ```
 
 ### Funktion: `arrange()`

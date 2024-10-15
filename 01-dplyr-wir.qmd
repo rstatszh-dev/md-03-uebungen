@@ -17,7 +17,7 @@ editor: visual
 
 ```
 
-## Daten importien
+## Daten importieren
 
 ### Treibhausgasemissionen im Kanton Zürich
 
