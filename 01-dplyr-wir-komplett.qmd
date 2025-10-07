@@ -13,6 +13,8 @@ editor: visual
 
 ## R-Pakete laden
 
+Wir laden die benötigten R-Pakete für den Datenimport und die Datentransformation.
+
 ```{r}
 library(readr)
 library(dplyr)
@@ -35,26 +37,30 @@ Der Datensatz enthält die folgenden Variablen:
 
 Der Datensatz wird vom Amt für Abfall, Wasser, Energie und Luft (AWEL) des Kantons Zürich als Open Government Data (OGD) Datensatz publiziert: [https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683\@awel-kanton-zuerich](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683@awel-kanton-zuerich)
 
+Wir importieren den Datensatz und speichern ihn als Objekt `thg`.
+
 ```{r}
-treibhausgase <- read_csv("daten/ktzh-treibhausgase.csv")
+thg <- read_csv("daten/ktzh-treibhausgase.csv")
 ```
 
 ## Daten erkunden
 
-```{r}
-glimpse(treibhausgase)
+Wir verschaffen uns einen Überblick über die Struktur und den Inhalt des Datensatzes.
 
-treibhausgase |> 
+```{r}
+glimpse(thg)
+
+thg |>
     distinct(hauptgruppe)
 
-treibhausgase |> 
+thg |>
     distinct(untergruppe)
 
-treibhausgase |> 
+thg |>
     distinct(hauptgruppe, untergruppe)
 
-treibhausgase |> 
-    distinct(jahr) |> 
+thg |>
+    distinct(jahr) |>
     tail()
 
 ```
@@ -63,81 +69,88 @@ treibhausgase |>
 
 ### Funktion: `filter()`
 
+Wir filtern Zeilen nach bestimmten Bedingungen.
+
 ```{r}
-treibhausgase |> 
+thg |>
     filter(hauptgruppe == "Verkehr")
 
-treibhausgase |> 
+thg |>
     filter(hauptgruppe != "Verkehr")
 
-treibhausgase |> 
+thg |>
     filter(hauptgruppe == "Verkehr", jahr == 2022)
 
-treibhausgase |> 
+thg |>
     filter(thg == "CH4" | thg == "CO2" | thg == "N20")
 
-treibhausgase |> 
+thg |>
     filter(thg %in% c("CH4", "CO2", "N20"))
 
 
-treibhausgase |> 
+thg |>
     filter(jahr > 2010)
 
-treibhausgase |> 
+thg |>
     filter(jahr <= 2010)
+
 
 
 ```
 
-Speichern eines resultierenden Dataframes als neues Objekt:
+Daten als neues Daten-Objekt im Environment speichern.
 
 ```{r}
-treibhausgase_verkehr <- treibhausgase |> 
-    filter(hauptgruppe == "Verkehr", jahr == 2022) 
-
-print((nrow(treibhausgase_verkehr))) 
-
-paste("Anzahl Reihen:", nrow(treibhausgase_verkehr))
+thg_verkehr <- thg |>
+    filter(hauptgruppe == "Verkehr", jahr == 2022)
 ```
 
 ### Funktion: `arrange()`
 
+Wir sortieren die Daten nach einer oder mehreren Variablen.
+
 ```{r}
 
-treibhausgase_verkehr |> 
+thg_verkehr |>
     arrange(emission)
 
-treibhausgase_verkehr |> 
+thg_verkehr |>
     arrange(desc(emission))
 
 ```
 
 ### Funktion: `select()`
 
+Wir wählen bestimmte Spalten aus dem Datensatz aus.
+
 ```{r}
-treibhausgase_verkehr |> 
+thg_verkehr |>
     select(jahr, untergruppe, emission)
 
-treibhausgase_verkehr |> 
+thg_verkehr |>
     select(-hauptgruppe)
 
-treibhausgase_verkehr |> 
+thg_verkehr |>
     select(jahr:untergruppe, emission)
 ```
 
 ### Funktion: `rename()`
 
+Wir benennen Spalten um, um sie aussagekräftiger zu machen. Es wird zuerst der neue Spaltenname geschrieben, dann der bestehende.
+
 ```{r}
-treibhausgase_verkehr |> 
-    rename(emission_co2eq_ton = emission) |> 
+thg_verkehr |>
+    rename(emission_co2eq_ton = emission) |>
     select(jahr, untergruppe, emission_co2eq_ton)
 ```
 
 ### Funktion: `mutate()`
 
+Wir erstellen neue Spalten oder verändern bestehende Spalten. Es wird zuerst der neue Spaltenname geschrieben, dann was die Spalte beinhalten soll.
+
 ```{r}
-treibhausgase_verkehr |> 
-    mutate(emission_co2eq_kg = emission * 1000) 
+thg_verkehr |>
+    mutate(emission_co2eq_kg = emission * 1000)
 ```
 
 ## Daten kommunizieren

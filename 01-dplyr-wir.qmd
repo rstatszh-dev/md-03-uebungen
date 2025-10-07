@@ -13,6 +13,8 @@ editor: visual
 
 ## R-Pakete laden
 
+Wir laden die benötigten R-Pakete für den Datenimport und die Datentransformation.
+
 ```{r}
 
 ```
@@ -34,23 +36,67 @@ Der Datensatz enthält die folgenden Variablen:
 
 Der Datensatz wird vom Amt für Abfall, Wasser, Energie und Luft (AWEL) des Kantons Zürich als Open Government Data (OGD) Datensatz publiziert: [https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683\@awel-kanton-zuerich](https://www.zh.ch/de/politik-staat/statistik-daten/datenkatalog.html#/datasets/2683@awel-kanton-zuerich)
 
+Wir importieren den Datensatz und speichern ihn als Objekt `thg`.
+
 ```{r}
 
 ```
 
 ## Daten erkunden
 
+Wir verschaffen uns einen Überblick über die Struktur und den Inhalt des Datensatzes.
+
+```{r}
+
+```
+
 ## Daten transformieren
 
 ### Funktion: `filter()`
 
+Wir filtern Zeilen nach bestimmten Bedingungen.
+
+```{r}
+
+```
+
+Daten als neues Daten-Objekt im Environment speichern.
+
+```{r}
+
+```
+
 ### Funktion: `arrange()`
+
+Wir sortieren die Daten nach einer oder mehreren Variablen.
+
+```{r}
+
+```
 
 ### Funktion: `select()`
 
+Wir wählen bestimmte Spalten aus dem Datensatz aus.
+
+```{r}
+
+```
+
 ### Funktion: `rename()`
 
+Wir benennen Spalten um, um sie aussagekräftiger zu machen. Es wird zuerst der neue Spaltenname geschrieben, dann der bestehende.
+
+```{r}
+
+```
+
 ### Funktion: `mutate()`
+
+Wir erstellen neue Spalten oder verändern bestehende Spalten. Es wird zuerst der neue Spaltenname geschrieben, dann was die Spalte beinhalten soll.
+
+```{r}
+
+```
 
 ## Daten kommunizieren
 

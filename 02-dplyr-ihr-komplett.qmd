@@ -27,7 +27,7 @@ library(ggthemes)
 ### Treibhausgasemissionen im Kanton Zürich
 
 ```{r}
-treibhausgase <- read_csv("daten/ktzh-treibhausgase.csv")
+thg <- read_csv("daten/ktzh-treibhausgase.csv")
 ```
 
 ## Daten erkunden
@@ -35,13 +35,13 @@ treibhausgase <- read_csv("daten/ktzh-treibhausgase.csv")
 1.  Nutze dir bekannte R Funktionen um die Daten zu erkunden.
 
 ```{r}
-head(treibhausgase)
-glimpse(treibhausgase)
+head(thg)
+glimpse(thg)
 ```
 
 ## Daten transformieren
 
-Für alle Aufgaben in diesen Übungen, arbeite mit dem Daten Objekt `treibhausgase`.
+Für alle Aufgaben in diesen Übungen, arbeite mit dem Daten Objekt `thg`.
 
 ### Filter nach Hauptgruppe Gebäude
 
@@ -50,16 +50,16 @@ Für alle Aufgaben in diesen Übungen, arbeite mit dem Daten Objekt `treibhausga
 2.  Führe den Code aus und betrachte die Resultate in der Console (Fenster unten links).
 
 ```{r}
-treibhausgase |>
+thg |>
     filter(hauptgruppe == "Gebäude")
 ```
 
-3.  Schreibe den Code erneut, aber speichere das Ergebnis diesmal mit dem Zuweisungsoperator `<-` in einem neuen Daten Objekt mit dem Namen `treibhausgase_gebaeude`.
+3.  Schreibe den Code erneut, aber speichere das Ergebnis diesmal mit dem Zuweisungsoperator `<-` in einem neuen Daten Objekt mit dem Namen `thg_gebaeude`.
 
 4.  Führe den Code aus und betrachte die Resultate im Environment (Fenster oben rechts).
 
 ```{r}
-treibhausgase_gebaeude <- treibhausgase |>
+thg_gebaeude <- thg |>
     filter(hauptgruppe == "Gebäude")
 ```
 
@@ -70,16 +70,16 @@ treibhausgase_gebaeude <- treibhausgase |>
 2.  Führe den Code aus und betrachte die Resultate in der Console (Fenster unten links).
 
 ```{r}
-treibhausgase |>
+thg |>
     filter(hauptgruppe == "Verkehr")
 ```
 
-3.  Schreibe den Code erneut, aber speichere das Ergebnis diesmal mit dem Zuweisungsoperator `<-` in einem neuen Daten Objekt mit dem Namen `treibhausgase_verkehr`.
+3.  Schreibe den Code erneut, aber speichere das Ergebnis diesmal mit dem Zuweisungsoperator `<-` in einem neuen Daten Objekt mit dem Namen `thg_verkehr`.
 
 4.  Führe den Code aus und betrachte die Resultate im Environment (Fenster oben rechts).
 
 ```{r}
-treibhausgase_verkehr <- treibhausgase |>
+thg_verkehr <- thg |>
     filter(hauptgruppe == "Verkehr")
 ```
 
@@ -87,7 +87,7 @@ treibhausgase_verkehr <- treibhausgase |>
 
 ### Verbundenes Streudiagramm für Gebäude Emissionen
 
-1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_gebaeude` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
+1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `thg_gebaeude` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
 
 Definiere folgende visuellen Eigenschaften:
 
@@ -103,9 +103,9 @@ Definiere folgende visuellen Eigenschaften:
 
 ```{r}
 
-ggplot(data = treibhausgase_gebaeude,
-       mapping = aes(x = jahr, 
-                     y = emission, 
+ggplot(data = thg_gebaeude,
+       mapping = aes(x = jahr,
+                     y = emission,
                      color = untergruppe)) +
     geom_point() +
     geom_path() +
@@ -116,7 +116,7 @@ ggplot(data = treibhausgase_gebaeude,
 
 ### Verbundenes Streudiagramm für Verkehr Emissionen
 
-1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_verkehr` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
+1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `thg_verkehr` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
 
 Definiere folgende visuellen Eigenschaften:
 
@@ -130,7 +130,7 @@ Definiere folgende visuellen Eigenschaften:
 
 ```{r}
 
-ggplot(data = treibhausgase_verkehr,
+ggplot(data = thg_verkehr,
        mapping = aes(x = jahr,
                      y = emission,
                      color = untergruppe)) +
