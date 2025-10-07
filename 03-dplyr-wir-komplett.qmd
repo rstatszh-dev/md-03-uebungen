@@ -26,9 +26,7 @@ Die Daten zu den Palmer-Pinguinen enthalten Größenmessungen für drei Pinguina
 
 Ich habe hier nochmals die wichtigsten Tastaturkürzel für dich hinzugefügt
 
--   **Einen neuen Code-chunk hinzufügen:** Ctrl + Alt + I
 -   **Code "Zeile für Zeile" innerhalb eines Code-chunks ausführen:** Ctrl + Enter
--   **Den gesamten Code-chunk ausführen:** Ctrl + Shift + Enter
 -   **Die Pipe (`|>`):** Ctrl + Shift + M
 -   **Der Zuweisungs-Operator (\<-)**: Alt + -
 
