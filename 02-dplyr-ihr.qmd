@@ -47,11 +47,15 @@ Für alle Aufgaben in diesen Übungen, arbeite mit dem Daten Objekt `treibhausga
 
 1.  Nutze die R Funktion `filter()` um die Daten nach der Hauptgruppen "Gebäude" zu filtern.
 
-2.  Führe den Code aus und betrachte die Resultate in der Console.
+2.  Führe den Code aus und betrachte die Resultate in der Console (Fenster unten links).
 
-3.  Nutze den Zuweisungsoperator `<-` um das Ergebnis in einem neuen Daten Objekt mit dem Namen `treibhausgase_gebaeude` zu speichern.
+```{r}
 
-4.  Führe den Code aus und betrachte die Resultate indem du auf den Namen des Daten Objekts klickst im Fenster oben links unter dem Reiter Environment klickst.
+```
+
+3.  Schreibe den Code erneut, aber speichere das Ergebnis diesmal mit dem Zuweisungsoperator `<-` in einem neuen Daten Objekt mit dem Namen `treibhausgase_gebaeude`.
+
+4.  Führe den Code aus und betrachte die Resultate im Environment (Fenster oben rechts).
 
 ```{r}
 
@@ -61,11 +65,15 @@ Für alle Aufgaben in diesen Übungen, arbeite mit dem Daten Objekt `treibhausga
 
 1.  Nutze die R Funktion `filter()` um die Daten nach der Hauptgruppen "Verkehr" zu filtern.
 
-2.  Führe den Code aus und betrachte die Resultate in der Console.
+2.  Führe den Code aus und betrachte die Resultate in der Console (Fenster unten links).
 
-3.  Nutze den Zuweisungsoperator `<-` um das Ergebnis in einem neuen Daten Objekt mit dem Namen `treibhausgase_verkehr` zu speichern.
+```{r}
 
-4.  Führe den Code aus und betrachte die Resultate indem du auf den Namen des Daten Objekts klickst im Fenster oben links unter dem Reiter Environment klickst.
+```
+
+3.  Schreibe den Code erneut, aber speichere das Ergebnis diesmal mit dem Zuweisungsoperator `<-` in einem neuen Daten Objekt mit dem Namen `treibhausgase_verkehr`.
+
+4.  Führe den Code aus und betrachte die Resultate im Environment (Fenster oben rechts).
 
 ```{r}
 
@@ -95,7 +103,7 @@ Definiere folgende visuellen Eigenschaften:
 
 ### Verbundenes Streudiagramm für Verkehr Emissionen
 
-1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_gebaeude` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
+1.  Unten wurde bereits ein Codeblock für dich erstellt. Nutze die Daten `treibhausgase_verkehr` und die Funktion `ggplot()`, um ein verbundenmes Streudiagramm mit `geom_point()` und `geom_line()` zu erstellen.
 
 Definiere folgende visuellen Eigenschaften:
 
