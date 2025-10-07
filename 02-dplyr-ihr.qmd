@@ -95,7 +95,7 @@ Definiere folgende visuellen Eigenschaften:
 
 4.  Ändere die Farben mit `scale_color_colorblind()`.
 
-5.  Nutze ein KI Tool um einen Titel und Untertitel zu dem Diagramm hinzzuzufügen und teile einen Link zu deinem Prompt hier:
+5.  Nutze ein KI Tool (e.g. duck.ai) um heraus zu bekommen wie du einen Titel und Untertitel zu dem Diagramm hinzufügen kannst
 
 ```{r}
 
